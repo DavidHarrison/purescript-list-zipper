@@ -4,7 +4,11 @@ import Prelude
 
 import Control.Bind                             ((<=<))
 import Control.Monad.Eff.Console                (log)
-import Data.Foldable                            (Foldable, foldl)
+import Data.Foldable                            ( Foldable
+                                                , foldl
+                                                , foldMap
+                                                , foldr
+                                                )
 import Data.List                                (List(), fromList, toList)
 import Data.Maybe                               (Maybe(..), maybe)
 import Test.QuickCheck                          ( Result(Success)
@@ -40,15 +44,22 @@ main = do
     checkFunctor prxZipper2 prxA prxB
     checkExtend  prxZipper2 prxA prxB prxC
     checkComonad prxZipper2 prxA prxB
-    -- TODO: check Foldable instance
-    -- TODO: Uncomment when Traversable laws are merged into purescript-quickcheck-laws
+    log "Checking that folding is preserved by natural transformations to an element and order preserving structure"
+    quickCheck $ \f -> (===) <$> foldMap (f :: Int -> String) <*> foldMap f <<< (toUnfoldable :: Zipper Int -> Array Int)
+    quickCheck $ \f i -> (===) <$> foldr (f :: Int -> String -> String) i <*> foldr f i <<< (toUnfoldable :: Zipper Int -> Array Int)
+    quickCheck $ \f i -> (===) <$> foldl (f :: String -> Int -> String) i <*> foldl f i <<< (toUnfoldable :: Zipper Int -> Array Int)
+    -- TODO: Uncomment when Traversable laws are merged into
+    --       purescript-quickcheck-laws
     -- checkTraversable prxZipper2 prxF2 prxG2 prxA prxB prxC
     log "Checking that composition of fromFoldable and toUnfoldable preserve elements and order"
-    quickCheck $ notUnequal (Just <<< beginning) $ map beginning <<< fromFoldable <<< (toUnfoldable :: Zipper Number -> Array Number)
-    -- TODO: assure that we exclude necessary information loss
-    -- (as with beginning above) in the other Foldable/Unfoldable
-    -- (does not matter for Array)
-    quickCheck $ notUnequal Just $ return <<< toUnfoldable <=< (fromFoldable :: Array Number -> Maybe (Zipper Number))
+    quickCheck $ notUnequal (Just <<< beginning)
+               $ map beginning <<< fromFoldable
+                               <<< (toUnfoldable :: Zipper Number -> Array Number)
+    -- TODO: assure that we exclude information loss (as with beginning above)
+    --       in the other Foldable/Unfoldable (does not matter for Array)
+    quickCheck $ notUnequal Just
+               $ return <<< (toUnfoldable :: Zipper Number -> Array Number)
+                        <=< fromFoldable
     log "Checking that `up` and `down` are inverses where their composition is defined"
     quickCheck $ notUnequal Just $ (up <=< down) :: Zipper Number -> Maybe (Zipper Number)
     quickCheck $ notUnequal Just $ (down <=< up) :: Zipper Number -> Maybe (Zipper Number)
