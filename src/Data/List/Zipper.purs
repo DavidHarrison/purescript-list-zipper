@@ -9,7 +9,7 @@ import Prelude
 
 import Control.Comonad  (Comonad, extract)
 import Control.Extend   (Extend, extend)
-import Data.List        (List(..), head, reverse, snoc, tail)
+import Data.List        (List(..), head, reverse, snoc, tail, toList)
 import Data.Foldable    (Foldable, foldl, foldMap, foldr, intercalate)
 import Data.Maybe       (Maybe(..), maybe)
 import Data.Traversable (Traversable, sequence, traverse)
@@ -44,10 +44,8 @@ toUnfoldable (Zipper ls c rs) = unfoldr iter $ Tuple (reverse ls) (Cons c rs)
         iter (Tuple Nil Nil)         = Nothing
 
 fromFoldable :: forall a f. (Foldable f) => f a -> Maybe (Zipper a)
-fromFoldable = foldl iter Nothing
-  where iter :: Maybe (Zipper a) -> a -> Maybe (Zipper a)
-        iter Nothing                 x = Just $ Zipper Nil x Nil
-        iter (Just (Zipper ls c rs)) x = Just $ Zipper ls c (snoc rs x)
+fromFoldable x = Zipper Nil <$> head asList <*> tail asList
+  where asList = toList x
 
 -------------------------------------------------------------------------------
 -- Instances ------------------------------------------------------------------
