@@ -27,7 +27,7 @@ import Test.QuickCheck.Laws.Control.Comonad     (checkComonad)
 import Test.QuickCheck.Laws.Control.Extend      (checkExtend)
 import Test.QuickCheck.Laws.Data.Eq             (checkEq)
 import Test.QuickCheck.Laws.Data.Functor        (checkFunctor)
-import Test.QuickCheck.Laws.Data.Ord            (checkOrd)
+-- import Test.QuickCheck.Laws.Data.Ord            (checkOrd)
 import Type.Proxy                               (Proxy(Proxy), Proxy2(Proxy2))
 
 import Data.List.Zipper ( Zipper(..)
@@ -40,7 +40,7 @@ main = do
     log "Checking that `show` is total"
     quickCheck $ const Success $ show :: Zipper Number -> String
     checkEq      prxZipper
-    checkOrd     prxZipper
+    -- checkOrd     prxZipper
     checkFunctor prxZipper2 prxA prxB
     checkExtend  prxZipper2 prxA prxB prxC
     checkComonad prxZipper2 prxA prxB
