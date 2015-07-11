@@ -1,18 +1,5 @@
 {
   "name": "purescript-list-zipper",
-  "version": "1.0.0",
-  "moduleType": [
-    "node"
-  ],
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "output"
-  ],
-}
-{
-  "name": "purescript-list-zipper",
   "homepage": "https://github.com/DavidHarrison/purescript-list-zipper",
   "description": "List zipper in PureScript.",
   "keywords": [
