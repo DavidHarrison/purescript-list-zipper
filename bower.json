@@ -10,6 +10,25 @@
     "bower_components",
     "output"
   ],
+}
+{
+  "name": "purescript-list-zipper",
+  "homepage": "https://github.com/DavidHarrison/purescript-list-zipper",
+  "description": "List zipper in PureScript.",
+  "keywords": [
+    "purescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DavidHarrison/purescript-list-zipper.git"
+  },
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "output",
+    "test",
+    "bower.json"
+  ],
   "dependencies": {
     "purescript-lists": "~0.7.0",
     "purescript-functor-compose": "~0.0.0"
@@ -18,5 +37,6 @@
     "purescript-console": "~0.1.0",
     "purescript-quickcheck": "~0.6.0",
     "purescript-quickcheck-laws": "*"
-  }
+  },
+  "version": "0.0.0"
 }
