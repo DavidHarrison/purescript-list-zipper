@@ -9,14 +9,13 @@ data Zipper a
 
 ##### Instances
 ``` purescript
-instance showZipper :: (Show a) => Show (Zipper a)
-instance eqZipper :: (Eq a) => Eq (Zipper a)
-instance functorZipper :: Functor Zipper
-instance extendZipper :: Extend Zipper
-instance comonadZipper :: Comonad Zipper
-instance foldableZipper :: Foldable Zipper
-instance traversableZipper :: Traversable Zipper
-instance unfoldableMaybeZipper :: Unfoldable (Compose Maybe Zipper)
+(Show a) => Show (Zipper a)
+(Eq a) => Eq (Zipper a)
+Functor Zipper
+Extend Zipper
+Comonad Zipper
+Foldable Zipper
+Traversable Zipper
 ```
 
 #### `up`
