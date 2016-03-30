@@ -17,8 +17,7 @@
     "bower.json"
   ],
   "dependencies": {
-    "purescript-lists": "~0.7.0",
-    "purescript-functor-compose": "~0.0.0"
+    "purescript-lists": "~0.7.0"
   },
   "devDependencies": {
     "purescript-console": "~0.1.0",
