@@ -11,7 +11,6 @@ import Control.Comonad      (Comonad, extract)
 import Control.Extend       (Extend, extend)
 import Data.List            (List(..), head, reverse, snoc, tail, toList)
 import Data.Foldable        (Foldable, foldl, foldMap, foldr, intercalate)
-import Data.Functor.Compose (Compose(..))
 import Data.Maybe           (Maybe(..), maybe)
 import Data.Traversable     (Traversable, sequence, traverse)
 import Data.Tuple           (Tuple(Tuple))
@@ -128,10 +127,6 @@ instance traversableZipper :: Traversable Zipper where
                                          <*> traverse f rs
     -- sequence :: forall a m. (Applicative m) => (Zipper (m a)) -> m (Zipper a)
     sequence = traverse id
-
-instance unfoldableMaybeZipper :: Unfoldable (Compose Maybe Zipper) where
-    unfoldr f x = Compose $ Zipper Nil <$> head asList <*> tail asList
-      where asList = unfoldr f x
 
 -------------------------------------------------------------------------------
 -- Helper Functions -----------------------------------------------------------
