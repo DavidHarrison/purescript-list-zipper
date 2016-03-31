@@ -1,0 +1,10 @@
+version: "2"
+services:
+  test:
+    build: .
+    working_dir: /usr/src
+    volumes:
+      - ./bower.json:/usr/src/bower.json
+      - ./src:/usr/src/src
+      - ./test:/usr/src/test
+    command: sh -c "bower install --allow-root && pulp build --censor-lib && pulp test"
