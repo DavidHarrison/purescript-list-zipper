@@ -6,10 +6,17 @@ List Zipper in PureScript
 [![Dependency Status](https://www.versioneye.com/user/projects/55a0a73b323939001700016e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55a0a73b323939001700016e)
 
 ## Installation
-
 ```
 bower install purescript-list-zipper
 ```
+
+## Local Testing
+- Install [Docker Compose](https://docs.docker.com/compose/install/)
+- `docker-compose run test`
+
+## Generating Documenation
+- Install [Docker Compose](https://docs.docker.com/compose/install/)
+- `docker-compose run docs`
 
 ## Module Documentation
 
