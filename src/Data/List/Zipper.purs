@@ -7,14 +7,14 @@ module Data.List.Zipper
 
 import Prelude
 
-import Control.Comonad      (Comonad, extract)
-import Control.Extend       (Extend, extend)
-import Data.List            (List(..), head, reverse, snoc, tail, toList)
-import Data.Foldable        (Foldable, foldl, foldMap, foldr, intercalate)
-import Data.Maybe           (Maybe(..), maybe)
-import Data.Traversable     (Traversable, sequence, traverse)
-import Data.Tuple           (Tuple(Tuple))
-import Data.Unfoldable      (Unfoldable, unfoldr)
+import Control.Comonad  (class Comonad)
+import Control.Extend   (class Extend)
+import Data.List        (List(..), head, reverse, tail, toList)
+import Data.Foldable    (class Foldable, foldl, foldMap, foldr, intercalate)
+import Data.Maybe       (Maybe(..), maybe)
+import Data.Traversable (class Traversable, traverse)
+import Data.Tuple       (Tuple(Tuple))
+import Data.Unfoldable  (class Unfoldable, unfoldr)
 
 data Zipper a = Zipper (List a) a (List a)
 

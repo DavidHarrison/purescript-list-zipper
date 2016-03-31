@@ -3,26 +3,25 @@ module Test.Main where
 import Prelude
 
 import Control.Bind                             ((<=<))
-import Control.Monad.Eff.Console                (log)
-import Data.Foldable                            ( Foldable
+import Control.Monad.Eff                        (Eff())
+import Control.Monad.Eff.Console                (CONSOLE(), log)
+import Control.Monad.Eff.Random                 (RANDOM())
+import Control.Monad.Eff.Exception              (EXCEPTION())
+import Data.Foldable                            ( class Foldable
                                                 , foldl
                                                 , foldMap
                                                 , foldr
                                                 )
-import Data.List                                (List(), fromList, toList)
 import Data.Maybe                               (Maybe(..), maybe)
 import Test.QuickCheck                          ( Result(Success)
                                                 , (===)
                                                 , quickCheck
                                                 )
-import Test.QuickCheck.Arbitrary                ( Arbitrary
-                                                , Coarbitrary
+import Test.QuickCheck.Arbitrary                ( class Arbitrary
+                                                , class Coarbitrary
                                                 , arbitrary
                                                 , coarbitrary
                                                 )
-import Test.QuickCheck.Gen                      (Gen())
-import Test.QuickCheck.Laws.Control.Applicative (checkApplicative)
-import Test.QuickCheck.Laws.Control.Apply       (checkApply)
 import Test.QuickCheck.Laws.Control.Comonad     (checkComonad)
 import Test.QuickCheck.Laws.Control.Extend      (checkExtend)
 import Test.QuickCheck.Laws.Data.Eq             (checkEq)
@@ -39,11 +38,17 @@ import Data.List.Zipper
     , fromFoldable, toUnfoldable
     ) as Zipper
 
-import Control.Extend (Extend, extend)
-import Control.Comonad (Comonad, extract)
-import Data.Unfoldable (Unfoldable)
+import Control.Extend (class Extend, extend)
+import Control.Comonad (class Comonad, extract)
+import Data.Unfoldable (class Unfoldable)
 
 
+main :: forall eff. Eff
+        ( console :: CONSOLE
+        , random :: RANDOM
+        , err :: EXCEPTION
+        | eff)
+        Unit
 main = do
     log "Checking that `show` is total"
     quickCheck $ const Success $ show :: ArbitraryZipper Number -> String
