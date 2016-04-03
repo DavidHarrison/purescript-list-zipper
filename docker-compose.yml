@@ -35,4 +35,4 @@ services:
       - ./LICENSE:/usr/src/LICENSE
       - ./README.md:/usr/src/README.md
       - ./docker-compose.yml:/usr/src/docker-compose.yml
-    command: sh -c "bower install && git status"
+    command: sh -c "bower install && psc-publish --dry-run"
