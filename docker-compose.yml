@@ -24,5 +24,15 @@ services:
     user: user
     working_dir: /usr/src
     volumes:
-      - .:/usr/src/
-    command: sh -c "rm -r bower_components && bower install && git status"
+      - ./.git:/usr/src/.git
+      - ./.gitignore:/usr/src/.gitignore
+      - ./bower.json:/usr/src/bower.json
+      - ./src:/usr/src/src
+      - ./test:/usr/src/test
+      - ./docs:/usr/src/docs
+      - ./.travis.yml:/usr/src/.travis.yml
+      - ./Dockerfile:/usr/src/Dockerfile
+      - ./LICENSE:/usr/src/LICENSE
+      - ./README.md:/usr/src/README.md
+      - ./docker-compose.yml:/usr/src/docker-compose.yml
+    command: sh -c "bower install && git status"
