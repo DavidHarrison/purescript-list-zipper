@@ -2,18 +2,30 @@ version: "2"
 services:
   test:
     build: .
+    user: user
     working_dir: /usr/src
     volumes:
       - ./bower.json:/usr/src/bower.json
       - ./src:/usr/src/src
       - ./test:/usr/src/test
-    command: sh -c "bower install --allow-root && pulp build --censor-lib && pulp test"
+    command: sh -c "bower install && pulp build --censor-lib && pulp test"
   docs:
     build: .
+    user: user
     working_dir: /usr/src
     volumes:
       - ./bower.json:/usr/src/bower.json
       - ./src:/usr/src/src
       - ./test:/usr/src/test
       - ./docs:/usr/src/docs
-    command: sh -c "bower install --allow-root && pulp docs"
+    command: sh -c "bower install && pulp docs"
+  publish:
+    build: .
+    user: user
+    working_dir: /usr/src
+    volumes:
+      - .git:/usr/src/.git
+      - .gitignore:/usr/src/.gitigore
+      - ./bower.json:/usr/src/bower.json
+      - ./LICENSE:/usr/src/LICENSE
+    command: sh -c "bower install && psc-publish --dry-run"
