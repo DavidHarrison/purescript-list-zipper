@@ -1,6 +1,7 @@
 {
   "name": "purescript-list-zipper",
   "homepage": "https://github.com/DavidHarrison/purescript-list-zipper",
+  "license": "MIT",
   "description": "List zipper in PureScript.",
   "keywords": [
     "purescript"
