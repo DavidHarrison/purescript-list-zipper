@@ -25,4 +25,4 @@ services:
     working_dir: /usr/src
     volumes:
       - .:/usr/src/
-    command: sh -c "bower install && git status"
+    command: sh -c "rm -r bower_components && bower install && git status"
