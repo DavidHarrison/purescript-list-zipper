@@ -25,7 +25,7 @@ services:
     working_dir: /usr/src
     volumes:
       - .git:/usr/src/.git
-      - .gitignore:/usr/src/.gitigore
+      - .gitignore:/usr/src/.gitignore
       - ./bower.json:/usr/src/bower.json
       - ./LICENSE:/usr/src/LICENSE
     command: sh -c "bower install && psc-publish --dry-run"
