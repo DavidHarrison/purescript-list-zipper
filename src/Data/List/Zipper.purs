@@ -9,7 +9,8 @@ import Prelude
 
 import Control.Comonad  (class Comonad)
 import Control.Extend   (class Extend)
-import Data.List        (List(..), head, reverse, tail, toList)
+import Data.List        (List(..), head, reverse, tail)
+import Data.List        (fromFoldable) as List
 import Data.Foldable    (class Foldable, foldl, foldMap, foldr, intercalate)
 import Data.Maybe       (Maybe(..), maybe)
 import Data.Traversable (class Traversable, traverse)
@@ -64,7 +65,7 @@ toUnfoldable (Zipper ls c rs) = unfoldr iter $ Tuple (reverse ls) (Cons c rs)
 -- | definition of `foldr` is O(n), the folding will also be O(n).
 fromFoldable :: forall a f. (Foldable f) => f a -> Maybe (Zipper a)
 fromFoldable x = Zipper Nil <$> head asList <*> tail asList
-  where asList = toList x
+  where asList = List.fromFoldable x
 
 -------------------------------------------------------------------------------
 -- Instances ------------------------------------------------------------------

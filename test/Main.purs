@@ -74,7 +74,7 @@ main = do
     -- TODO: assure that we exclude information loss (as with beginning above)
     --       in the other Foldable/Unfoldable (does not matter for Array)
     quickCheck $ notUnequal Just
-               $ return <<< (toUnfoldable :: ArbitraryZipper Number -> Array Number)
+               $ pure <<< (toUnfoldable :: ArbitraryZipper Number -> Array Number)
                         <=< fromFoldable
     log "Checking that `up` and `down` are inverses where their composition is defined"
     quickCheck $ notUnequal Just $ (up <=< down) :: ArbitraryZipper Number -> Maybe (ArbitraryZipper Number)
