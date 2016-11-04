@@ -2,7 +2,6 @@ module Test.Main where
 
 import Prelude
 
-import Control.Bind                             ((<=<))
 import Control.Monad.Eff                        (Eff())
 import Control.Monad.Eff.Console                (CONSOLE(), log)
 import Control.Monad.Eff.Random                 (RANDOM())
