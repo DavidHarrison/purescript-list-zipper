@@ -42,12 +42,7 @@ import Control.Comonad (class Comonad, extract)
 import Data.Unfoldable (class Unfoldable)
 
 
-main :: forall eff. Eff
-        ( console :: CONSOLE
-        , random :: RANDOM
-        , err :: EXCEPTION
-        | eff)
-        Unit
+main :: Eff (console :: CONSOLE, random :: RANDOM, exception :: EXCEPTION) Unit
 main = do
     log "Checking that `show` is total"
     quickCheck $ const Success $ show :: ArbitraryZipper Number -> String
@@ -98,10 +93,10 @@ prxB = Proxy
 prxC :: Proxy Int
 prxC = Proxy
 
-notUnequal :: forall a. (Eq a, Show a) => (a -> Maybe a) -> (a -> Maybe a) -> a -> Result
+notUnequal :: forall a. Eq a => Show a => (a -> Maybe a) -> (a -> Maybe a) -> a -> Result
 notUnequal f g x = maybe Success id $ (===) <$> f x <*> g x
 
-idempotent :: forall a. (Eq a) => (a -> a) -> a -> Boolean
+idempotent :: forall a. Eq a => (a -> a) -> a -> Boolean
 idempotent f = eq <$> f <<< f <*> f
 
 -- We can't make an arbitrary instance here for Zipper itself, because of orphan instances.
@@ -110,11 +105,11 @@ idempotent f = eq <$> f <<< f <*> f
 -- here, so that we're really testing Zipper.
 newtype ArbitraryZipper a = ArbitraryZipper (Zipper a)
 
-instance arbArbitraryZipper :: (Arbitrary a) => Arbitrary (ArbitraryZipper a) where
+instance arbArbitraryZipper :: Arbitrary a => Arbitrary (ArbitraryZipper a) where
     -- arbitrary :: forall a. (Arbitrary a) => Gen (Zipper a)
     arbitrary = ArbitraryZipper <$> (Zipper <$> arbitrary <*> arbitrary <*> arbitrary)
 
-instance coarbArbitraryZipper :: (Coarbitrary a) => Coarbitrary (ArbitraryZipper a) where
+instance coarbArbitraryZipper :: Coarbitrary a => Coarbitrary (ArbitraryZipper a) where
     coarbitrary (ArbitraryZipper (Zipper left middle right)) = coarbitrary left >>> coarbitrary middle >>> coarbitrary right
 
 -- Wrapping Zipper functions for ArbitraryZipper
@@ -130,18 +125,18 @@ beginning (ArbitraryZipper zipper) = ArbitraryZipper $ Zipper.beginning zipper
 end :: forall a. ArbitraryZipper a -> ArbitraryZipper a
 end (ArbitraryZipper zipper) = ArbitraryZipper $ Zipper.end zipper
 
-toUnfoldable :: forall a f. (Unfoldable f) => ArbitraryZipper a -> f a
+toUnfoldable :: forall a f. Unfoldable f => ArbitraryZipper a -> f a
 toUnfoldable (ArbitraryZipper zipper) = Zipper.toUnfoldable zipper
 
-fromFoldable :: forall a f. (Foldable f) => f a -> Maybe (ArbitraryZipper a)
+fromFoldable :: forall a f. Foldable f => f a -> Maybe (ArbitraryZipper a)
 fromFoldable f = ArbitraryZipper <$> Zipper.fromFoldable f
 
 -- Purescript will someday be able to derive most of the rest of these ...
 -- see https://github.com/purescript/purescript/issues/514.
-instance showArbitraryZipper :: (Show a) => Show (ArbitraryZipper a) where
+instance showArbitraryZipper :: Show a => Show (ArbitraryZipper a) where
     show (ArbitraryZipper zipper) = show zipper
 
-instance eqArbitraryZipper :: (Eq a) => Eq (ArbitraryZipper a) where
+instance eqArbitraryZipper :: Eq a => Eq (ArbitraryZipper a) where
     eq (ArbitraryZipper zipper1) (ArbitraryZipper zipper2) = eq zipper1 zipper2
 
 instance functorArbitraryZipper :: Functor ArbitraryZipper where
