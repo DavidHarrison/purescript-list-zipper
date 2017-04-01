@@ -102,7 +102,7 @@ instance functorZipper :: Functor Zipper where
 
 instance extendZipper :: Extend Zipper where
     -- extend :: forall b a. (Zipper a -> b) -> Zipper a -> Zipper b
-    extend f = Zipper <$> go f up <*> f <*> go f down
+    extend g = Zipper <$> go g up <*> g <*> go g down
         where go f d = (<$>) f <<< maybeIterate d
 
 instance comonadZipper :: Comonad Zipper where
